@@ -2,9 +2,8 @@
   <div id="app" class="container-fluid">
     <div class="row">
       <div id="nav">
-        
         <router-link :to="{name:'home'}">Home</router-link> | 
-        <router-link :to="{name:'about'}">About</router-link>
+        <router-link :to="{name:'cities'}">Cities</router-link>
       </div>
     </div>
     <div class="row">

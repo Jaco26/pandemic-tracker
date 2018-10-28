@@ -7,16 +7,60 @@
 <script>
 import boardImgSRC from '../assets/pandemic-board.png'
 export default {
-  mounted () {
-    const canvas = this.$refs.canvas;    
-    canvas.width = 900;
-    canvas.height = 600;
-    const ctx = canvas.getContext('2d');
-    const boardImg2 = new Image()
-    boardImg2.src = boardImgSRC;    
-    boardImg2.onload = function(e) {
-      ctx.drawImage(this, 0, 0, 900, 600)
+  methods: {
+    drawGrid(ctx) {
+      const width = ctx.canvas.width;
+      const height = ctx.canvas.height;
+      const nXSlice = 50
+      const nYSlice = 30;
+      const xIncrement = width / nXSlice;
+      const yIncrement = height / nYSlice;
+      for (let i = 0; i < nXSlice; i++) {
+        const num = i + 1
+        const xStart = xIncrement * num;      
+        ctx.beginPath();
+        ctx.strokeStyle = 'black'
+        ctx.moveTo(xStart, 0);
+        ctx.lineTo(xStart, height);
+        ctx.font = "15px Arial";
+        ctx.strokeStyle = 'black';
+        ctx.strokeText(num.toString(), xStart, 15);
+        ctx.stroke();
+      }
+
+      for (let i = 0; i < nYSlice; i++) {
+        const num = i + 1;
+        const yStart = yIncrement * num;        
+        ctx.beginPath();
+        ctx.strokeStyle = 'black'
+        ctx.moveTo(0, yStart);
+        ctx.lineTo(width, yStart);
+        ctx.font = "15px Arial";
+        ctx.strokeStyle = 'black';
+        ctx.strokeText(num.toString(), 5, yStart);
+        ctx.stroke();
+      }
+    },
+    drawCanvas() {
+      const canvas = this.$refs.canvas;    
+      canvas.width = 900;
+      canvas.height = 600;
+      const ctx = canvas.getContext('2d');
+      const boardImg2 = new Image()
+      boardImg2.src = boardImgSRC;    
+      boardImg2.onload = (e) => {
+        ctx.drawImage(boardImg2, 0, 0, canvas.width, canvas.height)
+        // this.drawGrid(ctx);
+      }
+      
+    },
+    applyGameOverlay() {
+
     }
+  },
+  mounted () {
+    this.drawCanvas();
+    this.applyGameOverlay();
   },
 }
 </script>
