@@ -5,7 +5,8 @@
 </template>
 
 <script>
-import boardImgSRC from '../assets/pandemic-board.png'
+import boardImgSRC from '../assets/pandemic-board.png';
+import { cities } from '@/lists/cities';
 export default {
   methods: {
     drawGrid(ctx) {
@@ -51,16 +52,29 @@ export default {
       boardImg2.onload = (e) => {
         ctx.drawImage(boardImg2, 0, 0, canvas.width, canvas.height)
         // this.drawGrid(ctx);
+        this.applyGameOverlay(ctx);
       }
       
     },
-    applyGameOverlay() {
-
+    applyGameOverlay(ctx) {
+      const width = ctx.canvas.width;
+      const height = ctx.canvas.height;
+      cities.forEach(city => {
+        const x = width / (city.xRatioKey / city.pos.xRatio);
+        const y = height / (city.yRatioKey / city.pos.yRatio);        
+        ctx.beginPath();
+        ctx.arc(x, y, 10, 0, Math.PI * 2);
+        ctx.strokeStyle = city.color;
+        ctx.fillStyle = 'black';
+        ctx.fillText(city.name, x + 5, y - 15)
+        ctx.stroke();
+        ctx.closePath();
+      });
+      
     }
   },
   mounted () {
     this.drawCanvas();
-    this.applyGameOverlay();
   },
 }
 </script>
